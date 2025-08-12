@@ -21,6 +21,7 @@
 ### 🚀 Why Use YouTube Autoplay Preventer?
 
 #### Problems This Extension Solves:
+
 - **Annoying Auto-Play**: YouTube videos start playing when you accidentally hover over them
 - **Unwanted Sounds**: Sudden audio interruptions while browsing or working
 - **Bandwidth Waste**: Videos loading unnecessarily, consuming your data
@@ -29,6 +30,7 @@
 - **Privacy Concerns**: Unwanted video tracking and data collection
 
 #### Benefits You'll Get:
+
 - 🔇 **Peaceful Browsing**: No more unexpected sounds or video interruptions
 - ⚡ **Faster Performance**: Improved YouTube loading speed and responsiveness
 - 💾 **Data Savings**: Reduced bandwidth usage, especially important on mobile
@@ -39,30 +41,36 @@
 ### 📦 Installation
 
 #### Chrome Web Store
+
 1. Visit the [Chrome Web Store page](#) (coming soon)
 2. Click "Add to Chrome"
 3. Confirm installation
 4. Start browsing YouTube without autoplay!
 
 #### Firefox Add-ons
+
 1. Visit the [Firefox Add-ons page](#) (coming soon)
 2. Click "Add to Firefox"
 3. Confirm installation
 4. Enjoy distraction-free YouTube browsing!
 
 #### Manual Installation (Development)
+
 1. Clone this repository:
+
    ```bash
    git clone https://github.com/gthrm/youtube-autoplay-preventer.git
    cd youtube-autoplay-preventer
    ```
 
 2. Install dependencies:
+
    ```bash
    pnpm install
    ```
 
 3. Build the extension:
+
    ```bash
    pnpm build
    ```
@@ -92,24 +100,28 @@ The extension uses advanced content script injection to:
 ### 🎨 Features in Detail
 
 #### Smart Autoplay Blocking
+
 - Prevents the `yt-open-video-preview-action` event
 - Blocks mouse hover events on video thumbnails
 - Maintains normal clicking functionality
 - Works with all YouTube layouts and themes
 
 #### Bandwidth Optimization
+
 - Stops unnecessary video preloading
 - Reduces data usage significantly
 - Improves page loading speeds
 - Perfect for mobile and limited data plans
 
 #### Privacy Enhancement
+
 - Prevents unwanted video tracking
 - Reduces data collection from accidental hovers
 - Maintains your browsing privacy
 - No data is collected by this extension
 
 #### User Experience
+
 - Clean, modern popup interface
 - Visual status indicators
 - One-click enable/disable toggle
@@ -127,6 +139,7 @@ The extension uses advanced content script injection to:
 ### 📊 Keywords & SEO
 
 This extension helps with:
+
 - YouTube autoplay blocking
 - Video preview prevention
 - Bandwidth saving browser extension
