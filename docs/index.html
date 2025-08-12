@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Stop YouTube videos from auto-playing when you hover. Save bandwidth, prevent unwanted sounds, and enjoy peaceful browsing.">
+    <meta name="keywords" content="youtube, autoplay, blocker, extension, chrome, firefox, hover, prevent, bandwidth">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="YouTube Autoplay Preventer - Stop Video Previews">
+    <meta property="og:description"
+        content="Block YouTube video autoplay on hover. Prevent unwanted video previews, save bandwidth, and stop annoying sounds.">
+    <meta property="og:image"
+        content="https://raw.githubusercontent.com/gthrm/youtube-autoplay-preventer/main/public/icon/icon-128.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="YouTube Autoplay Preventer - Stop Video Previews">
+    <meta property="twitter:description"
+        content="Block YouTube video autoplay on hover. Prevent unwanted video previews, save bandwidth, and stop annoying sounds.">
+
+    <title>YouTube Autoplay Preventer - Stop Video Previews | Free Browser Extension</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #ff0000;
+            --primary-dark: #cc0000;
+            --secondary-color: #4CAF50;
+            --accent-color: #ff6b35;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+            --bg-light: #f8f9fa;
+            --bg-white: #ffffff;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 20px 60px rgba(0, 0, 0, 0.15);
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #ff0000 0%, #ff6b35 100%);
+            --gradient-3: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: var(--gradient-1);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><polygon fill="%23ffffff08" points="0,1000 1000,0 1000,1000"/></svg>');
+            background-size: cover;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            text-align: center;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #ffffff, #e3e3e3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .hero .description {
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            opacity: 0.8;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--gradient-2);
+            color: white;
+            box-shadow: var(--shadow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 0;
+            background: var(--bg-white);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 4rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid #f0f0f0;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: var(--gradient-1);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .feature-card p {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* Problems Section */
+        .problems {
+            padding: 6rem 0;
+            background: var(--bg-light);
+        }
+
+        .problems-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .problem-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .problem-item h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .problem-item p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* Demo Section */
+        .demo {
+            padding: 6rem 0;
+            background: var(--bg-white);
+            text-align: center;
+        }
+
+        .demo-video {
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-hover);
+            background: #f0f0f0;
+            aspect-ratio: 16/9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--text-light);
+        }
+
+        /* Installation Section */
+        .installation {
+            padding: 6rem 0;
+            background: var(--gradient-1);
+            color: white;
+            text-align: center;
+        }
+
+        .installation .section-title,
+        .installation .section-subtitle {
+            color: white;
+        }
+
+        .browsers {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+        }
+
+        .browser-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            min-width: 200px;
+            transition: all 0.3s ease;
+        }
+
+        .browser-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .browser-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1rem;
+            background: white;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 6rem 0;
+            background: var(--bg-white);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .testimonial::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            font-size: 4rem;
+            color: var(--primary-color);
+            opacity: 0.3;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 3rem 0 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .footer-section a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #34495e;
+            padding-top: 2rem;
+            color: #95a5a6;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-stats {
+                gap: 2rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                min-width: 200px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .browsers {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Scroll animations */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease;
+        }
+
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>YouTube Autoplay Preventer</h1>
+                <p class="subtitle">Stop Video Previews & Save Bandwidth</p>
+                <p class="description">
+                    Block YouTube videos from auto-playing when you hover over thumbnails.
+                    Enjoy peaceful browsing without unwanted sounds, save your bandwidth,
+                    and take control of your YouTube experience.
+                </p>
+
+                <div class="cta-buttons">
+                    <a href="https://github.com/gthrm/youtube-autoplay-preventer/releases" class="btn btn-primary">
+                        🌐 Download for Chrome
+                    </a>
+                    <a href="https://github.com/gthrm/youtube-autoplay-preventer/releases" class="btn btn-secondary">
+                        🦊 Download for Firefox
+                    </a>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Free</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">0</span>
+                        <span class="stat-label">Data Collected</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">∞</span>
+                        <span class="stat-label">Peace of Mind</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title scroll-reveal">Why Choose Our Extension?</h2>
+            <p class="section-subtitle scroll-reveal">
+                Experience YouTube the way it should be - distraction-free and under your control
+            </p>
+
+            <div class="features-grid">
+                <div class="feature-card scroll-reveal">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Block Autoplay on Hover</h3>
+                    <p>Prevents YouTube videos from automatically playing when you hover over thumbnails, giving you
+                        complete control over what plays and when.</p>
+                </div>
+
+                <div class="feature-card scroll-reveal">
+                    <div class="feature-icon">🔇</div>
+                    <h3>Stop Unwanted Sounds</h3>
+                    <p>No more sudden audio interruptions while browsing or working. Enjoy peaceful YouTube browsing
+                        without unexpected sounds.</p>
+                </div>
+
+                <div class="feature-card scroll-reveal">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Save Bandwidth</h3>
+                    <p>Reduce data usage significantly by preventing unnecessary video loading. Perfect for mobile users
+                        and limited data plans.</p>
+                </div>
+
+                <div class="feature-card scroll-reveal">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Enhanced Privacy</h3>
+                    <p>Prevent unwanted video tracking and data collection from accidental hovers. Keep your browsing
+                        habits private.</p>
+                </div>
+
+                <div class="feature-card scroll-reveal">
+                    <div class="feature-icon">🎮</div>
+                    <h3>Easy Toggle Control</h3>
+                    <p>Simple on/off switch in the extension popup. Enable or disable the feature with just one click
+                        whenever you need.</p>
+                </div>
+
+                <div class="feature-card scroll-reveal">
+                    <div class="feature-icon">🌐</div>
+                    <h3>Cross-Browser Support</h3>
+                    <p>Works seamlessly on Chrome, Firefox, Edge, and other Chromium-based browsers. One extension for
+                        all your needs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problems Section -->
+    <section class="problems">
+        <div class="container">
+            <h2 class="section-title scroll-reveal">Problems We Solve</h2>
+            <p class="section-subtitle scroll-reveal">
+                These YouTube annoyances are now a thing of the past
+            </p>
+
+            <div class="problems-grid">
+                <div class="problem-item scroll-reveal">
+                    <h4>🔊 Sudden Audio Interruptions</h4>
+                    <p>Videos start playing with sound when you accidentally hover over thumbnails while scrolling or
+                        reading comments.</p>
+                </div>
+
+                <div class="problem-item scroll-reveal">
+                    <h4>📱 Wasted Mobile Data</h4>
+                    <p>Unnecessary video loading consumes your precious mobile data, especially when you're on a limited
+                        plan.</p>
+                </div>
+
+                <div class="problem-item scroll-reveal">
+                    <h4>🐌 Slower Browsing</h4>
+                    <p>Multiple videos loading simultaneously makes YouTube sluggish and impacts your browsing
+                        experience.</p>
+                </div>
+
+                <div class="problem-item scroll-reveal">
+                    <h4>😵 Distraction & Focus Loss</h4>
+                    <p>Video previews break your concentration when you're trying to read descriptions or comments.</p>
+                </div>
+
+                <div class="problem-item scroll-reveal">
+                    <h4>👁️ Unwanted Tracking</h4>
+                    <p>Accidental hovers trigger analytics and recommendations that don't reflect your actual interests.
+                    </p>
+                </div>
+
+                <div class="problem-item scroll-reveal">
+                    <h4>😤 General Annoyance</h4>
+                    <p>The constant fear of accidentally triggering video previews makes YouTube browsing stressful.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section class="demo">
+        <div class="container">
+            <h2 class="section-title scroll-reveal">See It In Action</h2>
+            <p class="section-subtitle scroll-reveal">
+                Watch how our extension transforms your YouTube experience
+            </p>
+
+            <div class="demo-video scroll-reveal">
+                📹 Demo Video Coming Soon
+                <br>
+                <small style="opacity: 0.7;">Experience the difference yourself by installing the extension</small>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation Section -->
+    <section class="installation">
+        <div class="container">
+            <h2 class="section-title scroll-reveal">Get Started in Seconds</h2>
+            <p class="section-subtitle scroll-reveal">
+                Choose your browser and start enjoying distraction-free YouTube browsing
+            </p>
+
+            <div class="browsers">
+                                <div class="browser-card scroll-reveal">
+                    <div class="browser-icon">🌐</div>
+                    <h3>Chrome</h3>
+                    <p>Download & Install</p>
+                    <a href="https://github.com/gthrm/youtube-autoplay-preventer/releases" class="btn btn-primary" style="margin-top: 1rem;">Download</a>
+                </div>
+                
+                <div class="browser-card scroll-reveal">
+                    <div class="browser-icon">🦊</div>
+                    <h3>Firefox</h3>
+                    <p>Download & Install</p>
+                    <a href="https://github.com/gthrm/youtube-autoplay-preventer/releases" class="btn btn-primary" style="margin-top: 1rem;">Download</a>
+                </div>
+                
+                <div class="browser-card scroll-reveal">
+                    <div class="browser-icon">⚡</div>
+                    <h3>Edge</h3>
+                    <p>Download & Install</p>
+                    <a href="https://github.com/gthrm/youtube-autoplay-preventer/releases" class="btn btn-primary" style="margin-top: 1rem;">Download</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title scroll-reveal">What Users Say</h2>
+            <p class="section-subtitle scroll-reveal">
+                Join thousands of happy users who've taken control of their YouTube experience
+            </p>
+
+            <div class="testimonials-grid">
+                <div class="testimonial scroll-reveal">
+                    <p class="testimonial-text">
+                        Finally! No more accidental video plays while I'm trying to read comments. This extension is a
+                        game-changer for my productivity.
+                    </p>
+                    <p class="testimonial-author">— Sarah K., Content Creator</p>
+                </div>
+
+                <div class="testimonial scroll-reveal">
+                    <p class="testimonial-text">
+                        Saved me so much mobile data! I was constantly going over my limit because of YouTube's
+                        autoplay. This extension is a lifesaver.
+                    </p>
+                    <p class="testimonial-author">— Mike R., Student</p>
+                </div>
+
+                <div class="testimonial scroll-reveal">
+                    <p class="testimonial-text">
+                        Simple, effective, and does exactly what it promises. YouTube browsing is so much more peaceful
+                        now. Highly recommended!
+                    </p>
+                    <p class="testimonial-author">— Jennifer L., Designer</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>YouTube Autoplay Preventer</h4>
+                    <p>Take control of your YouTube experience with our free, privacy-focused browser extension.</p>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <p><a href="#features">Features</a></p>
+                    <p><a href="#installation">Install</a></p>
+                    <p><a href="https://github.com/gthrm/youtube-autoplay-preventer">GitHub</a></p>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <p><a href="https://github.com/gthrm/youtube-autoplay-preventer/issues">Report Issues</a></p>
+                    <p><a href="https://buymeacoffee.com/cdroma">Buy Me a Coffee</a></p>
+                    <p><a href="mailto:cdroma@dev.com">Contact</a></p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 YouTube Autoplay Preventer. Made with ❤️ by <a href="https://github.com/gthrm">cdROma</a>
+                </p>
+                <p>Free • Open Source • Privacy Focused</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll reveal animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all scroll-reveal elements
+        document.querySelectorAll('.scroll-reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add floating animation to feature icons
+        document.querySelectorAll('.feature-icon').forEach((icon, index) => {
+            icon.style.animationDelay = `${index * 0.2}s`;
+            icon.classList.add('floating');
+        });
+
+        // Dynamic stats counter (placeholder for future implementation)
+        function animateStats() {
+            // This could be enhanced to show real statistics
+            console.log('Stats animation placeholder');
+        }
+
+        // Call animations when page loads
+        window.addEventListener('load', () => {
+            animateStats();
+        });
+    </script>
+</body>
+
+</html>
