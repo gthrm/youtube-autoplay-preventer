@@ -1,0 +1,80 @@
+{
+  "name": "youtube-autoplay-preventer",
+  "version": "1.0.0",
+  "description": "Block YouTube video autoplay on hover. Prevent unwanted video previews, save bandwidth, and stop annoying sounds. Essential YouTube browsing enhancement for better user experience.",
+  "private": true,
+  "main": "entrypoints/content.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "wxt",
+    "dev:firefox": "wxt -b firefox",
+    "build": "wxt build",
+    "build:firefox": "wxt build -b firefox",
+    "zip": "wxt zip",
+    "zip:firefox": "wxt zip -b firefox",
+    "compile": "tsc --noEmit",
+    "postinstall": "wxt prepare"
+  },
+  "keywords": [
+    "youtube",
+    "autoplay",
+    "hover",
+    "prevention",
+    "chrome-extension",
+    "browser-extension",
+    "video",
+    "preview",
+    "block",
+    "disable",
+    "stop",
+    "youtube-enhancement",
+    "video-control",
+    "bandwidth-saver",
+    "privacy",
+    "user-experience",
+    "youtube-blocker",
+    "video-blocker",
+    "autoplay-blocker",
+    "youtube-addon",
+    "productivity",
+    "focus",
+    "distraction-blocker",
+    "web-extension",
+    "chrome-addon",
+    "firefox-addon",
+    "youtube-tools",
+    "video-management"
+  ],
+  "devDependencies": {
+    "typescript": "^5.8.3",
+    "wxt": "^0.20.6"
+  },
+  "author": "cdROma",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gthrm/youtube-autoplay-preventer"
+  },
+  "bugs": {
+    "url": "https://github.com/gthrm/youtube-autoplay-preventer/issues"
+  },
+  "homepage": "https://github.com/gthrm/youtube-autoplay-preventer#readme",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "browser": {
+    "chrome": ">=88.0.0",
+    "firefox": ">=109.0.0",
+    "edge": ">=88.0.0"
+  },
+  "manifest": {
+    "version": 3,
+    "permissions": [
+      "activeTab",
+      "storage"
+    ],
+    "host_permissions": [
+      "*://*.youtube.com/*"
+    ]
+  }
+}

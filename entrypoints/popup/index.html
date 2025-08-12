@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Block YouTube video autoplay on hover. Prevent unwanted video previews, save bandwidth, and stop annoying sounds.">
+  <meta name="keywords" content="youtube, autoplay, block, video, preview, hover, disable, chrome extension">
+  <meta name="author" content="cdROma">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="YouTube Autoplay Preventer - Stop Video Previews">
+  <meta property="og:description"
+    content="Block YouTube video autoplay on hover. Prevent unwanted video previews, save bandwidth, and stop annoying sounds.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://github.com/gthrm/youtube-autoplay-preventer">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="YouTube Autoplay Preventer - Stop Video Previews">
+  <meta name="twitter:description"
+    content="Block YouTube video autoplay on hover. Prevent unwanted video previews, save bandwidth, and stop annoying sounds.">
+  <title>YouTube Autoplay Preventer - Stop Video Previews</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>YouTube Autoplay Preventer</h1>
+      <p class="subtitle">Block video previews & save bandwidth</p>
+    </div>
+
+    <div class="content">
+      <div class="toggle-section">
+        <label class="toggle-container" title="Toggle YouTube autoplay prevention on/off">
+          <input type="checkbox" id="enableToggle" checked aria-label="Enable YouTube autoplay prevention">
+          <span class="toggle-slider"></span>
+          <span class="toggle-label">Block autoplay on hover</span>
+        </label>
+      </div>
+
+      <div class="info-section">
+        <div class="info-item">
+          <span class="info-icon" role="img" aria-label="Target">🎯</span>
+          <span class="info-text">Blocks YouTube video auto-play on hover</span>
+        </div>
+        <div class="info-item">
+          <span class="info-icon" role="img" aria-label="Sound">🔇</span>
+          <span class="info-text">Prevents unwanted sounds & audio</span>
+        </div>
+        <div class="info-item">
+          <span class="info-icon" role="img" aria-label="Speed">⚡</span>
+          <span class="info-text">Saves bandwidth & improves performance</span>
+        </div>
+
+      </div>
+
+      <div class="status-section">
+        <div class="status-indicator">
+          <span class="status-dot" id="statusDot"></span>
+          <span class="status-text" id="statusText">Active</span>
+        </div>
+      </div>
+
+      <div class="donate-section">
+        <p>Help fund development:</p>
+        <a
+          href="https://buymeacoffee.com/cdroma"
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Support the developer by buying a coffee"
+        >
+          <img
+            src="https://cdn.buymeacoffee.com/buttons/default-yellow.png"
+            alt="Buy Me A Coffee"
+            class="donate-button"
+          />
+        </a>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p class="version" id="versionText">Loading...</p>
+    </div>
+  </div>
+
+  <script type="module" src="./main.ts"></script>
+</body>
+
+</html>
