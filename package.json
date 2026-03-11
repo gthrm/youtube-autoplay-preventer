@@ -1,6 +1,6 @@
 {
   "name": "youtube-autoplay-preventer",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Block YouTube video autoplay on hover. Prevent unwanted video previews, save bandwidth, and stop annoying sounds. Essential YouTube browsing enhancement for better user experience.",
   "private": true,
   "main": "entrypoints/content.ts",
@@ -46,8 +46,8 @@
     "video-management"
   ],
   "devDependencies": {
-    "typescript": "^5.8.3",
-    "wxt": "^0.20.6"
+    "typescript": "^5.9.3",
+    "wxt": "^0.20.18"
   },
   "author": "cdROma",
   "license": "MIT",

@@ -8,35 +8,45 @@ interface YTActionEvent extends Event {
 export default defineContentScript({
   matches: ["*://*.youtube.com/*"],
   main() {
-    let isEnabled = true;
+    let isEnabled: boolean = true;
+    let isBlockAutoplay: boolean = true;
 
     // Firefox compatibility: try-catch for storage API
     try {
       // Load settings - Firefox prefers Promise-based API
       const loadSettings = async () => {
         try {
-          const result = await browser.storage.sync.get(["enabled"]);
+          const result = await browser.storage.sync.get(["enabled", "blockAutoplay"]);
           isEnabled = result.enabled !== false;
+          isBlockAutoplay = result.blockAutoplay !== false;
           if (isEnabled) {
             blockHoverPreviews();
+          }
+          if (isBlockAutoplay) {
+            blockAutoplayAfterVideo();
           }
         } catch (error) {
           console.log("Storage get error, using default settings:", error);
           blockHoverPreviews(); // Default to enabled
+          blockAutoplayAfterVideo(); // Default to enabled
         }
       };
-      
+
       loadSettings();
 
       // Listen for settings changes
       browser.storage.onChanged.addListener(function (changes) {
         if (changes.enabled) {
-          isEnabled = changes.enabled.newValue;
+          isEnabled = !!changes.enabled.newValue;
+        }
+        if (changes.blockAutoplay) {
+          isBlockAutoplay = !!changes.blockAutoplay.newValue;
         }
       });
     } catch (error) {
       console.log("Storage API error, using default settings:", error);
       blockHoverPreviews(); // Default to enabled
+      blockAutoplayAfterVideo(); // Default to enabled
     }
 
     function blockHoverPreviews() {
@@ -91,6 +101,24 @@ export default defineContentScript({
             }
         `;
       document.head.appendChild(style);
+    }
+
+    function blockAutoplayAfterVideo() {
+      document.addEventListener(
+        "yt-navigate",
+        function (event: Event) {
+          if (!isBlockAutoplay) return;
+
+          const detail = (event as CustomEvent).detail;
+          if (detail?.tempData?.autonav === "1") {
+            event.stopImmediatePropagation();
+            event.preventDefault();
+            console.log("🚫 Blocked autoplay after video");
+            return false;
+          }
+        },
+        true
+      );
     }
 
     console.log("YouTube Autoplay Preventer: Extension loaded");

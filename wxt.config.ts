@@ -5,10 +5,10 @@ export default defineConfig({
   manifest: {
     manifest_version: 3,
     name: "YouTube Autoplay Preventer - Stop Video Previews",
-    version: "1.0.0",
+    version: "1.1.0",
     description:
       "Block YouTube video autoplay on hover. Save bandwidth and prevent unwanted sounds.",
-    permissions: ["activeTab", "storage"],
+    permissions: ["activeTab", "storage", "tabs"],
     host_permissions: ["*://*.youtube.com/*"],
     action: {
       default_title: "YouTube Autoplay Preventer - Control Video Previews",

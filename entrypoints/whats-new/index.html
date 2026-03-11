@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What's New — YouTube Autoplay Preventer</title>
+  <script type="module" src="./main.ts"></script>
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f0f0f;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 48px 16px 64px;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 660px;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 40px;
+    }
+
+    .logo {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 24px;
+    }
+
+    .header-text h1 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #aaa;
+      letter-spacing: 0.02em;
+    }
+
+    .version-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #272727;
+      border: 1px solid #333;
+      border-radius: 20px;
+      padding: 3px 10px;
+      font-size: 13px;
+      color: #ccc;
+      margin-top: 4px;
+    }
+
+    .version-badge .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #4ade80;
+      box-shadow: 0 0 6px #4ade80aa;
+    }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(135deg, #1a0000 0%, #1a0a00 50%, #0a0a1a 100%);
+      border: 1px solid #2a1010;
+      border-radius: 20px;
+      padding: 40px 36px;
+      margin-bottom: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, #ff000022 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #ff000020;
+      border: 1px solid #ff000040;
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 12px;
+      color: #ff6666;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .hero h2 {
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #fff 0%, #ccc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 16px;
+      color: #999;
+      line-height: 1.6;
+      max-width: 480px;
+    }
+
+    /* Feature card */
+    .feature-card {
+      background: #161616;
+      border: 1px solid #272727;
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 16px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      transition: border-color 0.2s;
+    }
+
+    .feature-card:hover {
+      border-color: #ff000055;
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .feature-icon.red {
+      background: #ff000018;
+      border: 1px solid #ff000030;
+    }
+
+    .feature-icon.green {
+      background: #00ff0010;
+      border: 1px solid #00ff0025;
+    }
+
+    .feature-body h3 {
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+
+    .feature-body p {
+      font-size: 14px;
+      color: #888;
+      line-height: 1.6;
+    }
+
+    .new-tag {
+      display: inline-block;
+      background: #ff000020;
+      color: #ff6666;
+      border: 1px solid #ff000040;
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+
+    /* How to use */
+    .how-to {
+      background: #161616;
+      border: 1px solid #272727;
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 28px;
+    }
+
+    .how-to h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #666;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .step-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #222;
+      border: 1px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: #777;
+      flex-shrink: 0;
+    }
+
+    .step span {
+      font-size: 14px;
+      color: #bbb;
+      line-height: 1.5;
+    }
+
+    .step span strong {
+      color: #fff;
+    }
+
+    /* CTA */
+    .cta {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn-primary {
+      flex: 1;
+      background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 14px 24px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: #1e1e1e;
+      color: #aaa;
+      border: 1px solid #333;
+      border-radius: 10px;
+      padding: 14px 20px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-secondary:hover {
+      background: #272727;
+      color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+
+    <div class="header">
+      <div class="logo">▶</div>
+      <div class="header-text">
+        <h1>YouTube Autoplay Preventer</h1>
+        <div class="version-badge">
+          <span class="dot"></span>
+          <span id="versionText">v1.1.0</span> — just updated
+        </div>
+      </div>
+    </div>
+
+    <div class="hero">
+      <div class="hero-tag">✦ What's New</div>
+      <h2>Take back control<br>of your watch queue</h2>
+      <p>Version 1.1.0 brings a new feature: stop YouTube from automatically playing the next video when the current one ends.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon red">🚫</div>
+      <div class="feature-body">
+        <h3>Block Autoplay After Video <span class="new-tag">New</span></h3>
+        <p>YouTube silently navigates to the next recommended video the moment your video finishes. This new toggle intercepts that navigation event and stops it — so you stay in control of what you watch next.</p>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon green">🖱️</div>
+      <div class="feature-body">
+        <h3>Block Autoplay on Hover</h3>
+        <p>Already available since v1.0.0. Prevents video thumbnails from auto-playing a preview clip when you hover over them — saving bandwidth and keeping your browsing quiet.</p>
+      </div>
+    </div>
+
+    <div class="how-to">
+      <h3>How to enable</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <span>Click the extension icon in your browser toolbar</span>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <span>Turn on <strong>Block autoplay after video</strong> in the popup</span>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <span>YouTube tabs will reload automatically — done!</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta">
+      <button class="btn-primary" id="closeBtn">Got it, thanks!</button>
+      <button class="btn-secondary" id="githubBtn">View on GitHub</button>
+    </div>
+
+  </div>
+</body>
+
+</html>
