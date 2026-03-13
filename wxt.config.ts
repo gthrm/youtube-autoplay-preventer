@@ -1,14 +1,15 @@
 import { defineConfig } from "wxt";
+import { version } from "./package.json";
 
 // See https://wxt.dev/api/config.html
 export default defineConfig({
   manifest: {
     manifest_version: 3,
     name: "YouTube Autoplay Preventer - Stop Video Previews",
-    version: "1.1.0",
+    version,
     description:
       "Block YouTube video autoplay on hover. Save bandwidth and prevent unwanted sounds.",
-    permissions: ["activeTab", "storage", "tabs"],
+    permissions: ["storage"],
     host_permissions: ["*://*.youtube.com/*"],
     action: {
       default_title: "YouTube Autoplay Preventer - Control Video Previews",
