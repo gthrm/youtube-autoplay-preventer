@@ -15,6 +15,20 @@ export default defineBackground(() => {
       } catch (error) {
         console.log("Error opening whats-new page:", error);
       }
+
+      try {
+        const { donatePromptShown } = await browser.storage.local.get([
+          "donatePromptShown",
+        ]);
+        if (!donatePromptShown) {
+          await browser.storage.local.set({ donatePromptShown: true });
+          await browser.tabs.create({
+            url: browser.runtime.getURL("/donate.html" as any),
+          });
+        }
+      } catch (error) {
+        console.log("Error opening donate page:", error);
+      }
     }
   });
 });
