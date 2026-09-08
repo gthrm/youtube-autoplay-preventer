@@ -21,12 +21,12 @@
       display: flex;
       align-items: flex-start;
       justify-content: center;
-      padding: 48px 16px 64px;
+      padding: 40px 16px 56px;
     }
 
     .page {
       width: 100%;
-      max-width: 660px;
+      max-width: 760px;
     }
 
     /* Header */
@@ -34,7 +34,7 @@
       display: flex;
       align-items: center;
       gap: 14px;
-      margin-bottom: 40px;
+      margin-bottom: 28px;
     }
 
     .logo {
@@ -82,8 +82,8 @@
       background: linear-gradient(135deg, #1a0000 0%, #1a0a00 50%, #0a0a1a 100%);
       border: 1px solid #2a1010;
       border-radius: 20px;
-      padding: 40px 36px;
-      margin-bottom: 28px;
+      padding: 32px 34px;
+      margin-bottom: 24px;
       position: relative;
       overflow: hidden;
     }
@@ -112,11 +112,11 @@
       font-weight: 600;
       letter-spacing: 0.05em;
       text-transform: uppercase;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .hero h2 {
-      font-size: 32px;
+      font-size: 30px;
       font-weight: 700;
       line-height: 1.2;
       margin-bottom: 12px;
@@ -127,10 +127,20 @@
     }
 
     .hero p {
-      font-size: 16px;
+      font-size: 15px;
       color: #999;
       line-height: 1.6;
-      max-width: 480px;
+      max-width: 520px;
+    }
+
+    /* Section label */
+    .section-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #666;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin: 28px 0 14px;
     }
 
     /* Feature card */
@@ -138,10 +148,10 @@
       background: #161616;
       border: 1px solid #272727;
       border-radius: 16px;
-      padding: 28px;
-      margin-bottom: 16px;
+      padding: 22px 24px;
+      margin-bottom: 12px;
       display: flex;
-      gap: 20px;
+      gap: 18px;
       align-items: flex-start;
       transition: border-color 0.2s;
     }
@@ -151,13 +161,13 @@
     }
 
     .feature-icon {
-      width: 48px;
-      height: 48px;
+      width: 44px;
+      height: 44px;
       border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
+      font-size: 21px;
       flex-shrink: 0;
     }
 
@@ -171,10 +181,15 @@
       border: 1px solid #00ff0025;
     }
 
+    .feature-icon.blue {
+      background: #3b82f618;
+      border: 1px solid #3b82f635;
+    }
+
     .feature-body h3 {
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 600;
-      margin-bottom: 6px;
+      margin-bottom: 5px;
       color: #fff;
     }
 
@@ -199,59 +214,145 @@
       vertical-align: middle;
     }
 
-    /* How to use */
-    .how-to {
+    /* Support */
+    .support {
+      background: linear-gradient(180deg, #150808 0%, #131313 70%);
+      border: 1px solid #2a1010;
+      border-radius: 20px;
+      padding: 28px 26px 24px;
+      margin-top: 28px;
+    }
+
+    .support-head {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    .support-head h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .support-head p {
+      font-size: 14.5px;
+      color: #999;
+      line-height: 1.55;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .tiers {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .tier {
       background: #161616;
       border: 1px solid #272727;
       border-radius: 16px;
-      padding: 28px;
-      margin-bottom: 28px;
-    }
-
-    .how-to h3 {
-      font-size: 14px;
-      font-weight: 600;
-      color: #666;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      margin-bottom: 20px;
-    }
-
-    .steps {
+      padding: 22px 20px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      transition: border-color 0.2s, transform 0.15s;
+      position: relative;
     }
 
-    .step {
-      display: flex;
-      align-items: center;
-      gap: 14px;
+    .tier:hover {
+      border-color: #ff000055;
+      transform: translateY(-2px);
     }
 
-    .step-num {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: #222;
-      border: 1px solid #333;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .tier.featured {
+      border-color: #ff000055;
+      background: linear-gradient(180deg, #1a0d0d 0%, #161616 60%);
+    }
+
+    .tier-badge {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+      color: #fff;
+      border-radius: 20px;
+      padding: 3px 12px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .tier-emoji {
+      font-size: 26px;
+      margin-bottom: 8px;
+    }
+
+    .tier-name {
       font-size: 13px;
       font-weight: 700;
-      color: #777;
-      flex-shrink: 0;
+      color: #ff6666;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
     }
 
-    .step span {
-      font-size: 14px;
-      color: #bbb;
+    .tier-price {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #fff 0%, #bbb 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .tier-desc {
+      font-size: 13.5px;
+      color: #999;
       line-height: 1.5;
+      margin-bottom: 16px;
+      flex: 1;
     }
 
-    .step span strong {
+    .tier-btn {
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      background: #1e1e1e;
       color: #fff;
+      border: 1px solid #333;
+      border-radius: 10px;
+      padding: 11px 18px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, opacity 0.2s, transform 0.15s;
+    }
+
+    .tier-btn:hover {
+      background: #272727;
+      transform: translateY(-1px);
+    }
+
+    .tier.featured .tier-btn {
+      background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+      border-color: transparent;
+    }
+
+    .tier.featured .tier-btn:hover {
+      opacity: 0.9;
+      background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+    }
+
+    .note {
+      text-align: center;
+      font-size: 13px;
+      color: #666;
+      line-height: 1.6;
     }
 
     /* CTA */
@@ -259,6 +360,7 @@
       display: flex;
       gap: 12px;
       align-items: center;
+      margin-top: 24px;
     }
 
     .btn-primary {
@@ -296,6 +398,12 @@
       background: #272727;
       color: #fff;
     }
+
+    @media (max-width: 620px) {
+      .tiers {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 
@@ -308,49 +416,77 @@
         <h1>YouTube Autoplay Preventer</h1>
         <div class="version-badge">
           <span class="dot"></span>
-          <span id="versionText">v1.1.0</span> — just updated
+          <span id="versionText">v1.3.1</span> — just updated
         </div>
       </div>
     </div>
 
     <div class="hero">
       <div class="hero-tag">✦ What's New</div>
-      <h2>Take back control<br>of your watch queue</h2>
-      <p>Version 1.1.0 brings a new feature: stop YouTube from automatically playing the next video when the current one ends.</p>
+      <h2>Previews stay quiet<br>in the sidebar too</h2>
+      <p>Users reported that hover previews were blocked on the homepage but still played in the recommendations sidebar on watch pages. This release fixes that.</p>
     </div>
 
     <div class="feature-card">
-      <div class="feature-icon red">🚫</div>
+      <div class="feature-icon red">📺</div>
       <div class="feature-body">
-        <h3>Block Autoplay After Video <span class="new-tag">New</span></h3>
-        <p>YouTube silently navigates to the next recommended video the moment your video finishes. This new toggle intercepts that navigation event and stops it — so you stay in control of what you watch next.</p>
+        <h3>Sidebar previews blocked <span class="new-tag">Fixed</span></h3>
+        <p>YouTube uses different markup for the "Up next" and recommendations column than for the homepage grid, so hovering there still started a preview. The blocker now covers that markup — including YouTube's newer view-model components — and pauses any preview player that slips through.</p>
       </div>
     </div>
 
     <div class="feature-card">
       <div class="feature-icon green">🖱️</div>
       <div class="feature-body">
-        <h3>Block Autoplay on Hover</h3>
-        <p>Already available since v1.0.0. Prevents video thumbnails from auto-playing a preview clip when you hover over them — saving bandwidth and keeping your browsing quiet.</p>
+        <h3>Block autoplay on hover</h3>
+        <p>Stops video thumbnails from auto-playing a preview clip when you hover over them — on the homepage, in search results, on channel pages and now in the watch page sidebar.</p>
       </div>
     </div>
 
-    <div class="how-to">
-      <h3>How to enable</h3>
-      <div class="steps">
-        <div class="step">
-          <div class="step-num">1</div>
-          <span>Click the extension icon in your browser toolbar</span>
-        </div>
-        <div class="step">
-          <div class="step-num">2</div>
-          <span>Turn on <strong>Block autoplay after video</strong> in the popup</span>
-        </div>
-        <div class="step">
-          <div class="step-num">3</div>
-          <span>YouTube tabs will reload automatically — done!</span>
-        </div>
+    <div class="feature-card">
+      <div class="feature-icon blue">🚫</div>
+      <div class="feature-body">
+        <h3>Block autoplay after video</h3>
+        <p>YouTube silently navigates to the next recommended video the moment yours finishes. This toggle intercepts that navigation and stops it, so you stay in control of what you watch next. Enable it from the extension icon in your toolbar.</p>
       </div>
+    </div>
+
+    <div class="support">
+      <div class="support-head">
+        <h2>Enjoying a quieter YouTube?</h2>
+        <p>This extension is free, with no ads and no tracking. Your support keeps it alive and getting better.</p>
+      </div>
+
+      <div class="tiers">
+
+        <div class="tier">
+          <div class="tier-emoji">☕</div>
+          <div class="tier-name">Supporter</div>
+          <div class="tier-price">$3</div>
+          <div class="tier-desc">Buy me a coffee. Covers hosting costs and keeps the extension alive and updated. Every bit genuinely helps.</div>
+          <a class="tier-btn" data-tier="3" href="https://tinyurl.com/3nd483es" target="_blank" rel="noopener noreferrer">Support with $3</a>
+        </div>
+
+        <div class="tier featured">
+          <div class="tier-badge">Most popular</div>
+          <div class="tier-emoji">🚀</div>
+          <div class="tier-name">Patron</div>
+          <div class="tier-price">$30</div>
+          <div class="tier-desc">Fund new features and fast bug fixes. A huge boost for a solo developer and a vote for the roadmap ahead.</div>
+          <a class="tier-btn" data-tier="30" href="https://tinyurl.com/3nd483es" target="_blank" rel="noopener noreferrer">Support with $30</a>
+        </div>
+
+        <div class="tier">
+          <div class="tier-emoji">👑</div>
+          <div class="tier-name">Legend</div>
+          <div class="tier-price">$300</div>
+          <div class="tier-desc">Make long-term development possible. Your name goes in the README credits, plus a personal thank-you from the author.</div>
+          <a class="tier-btn" data-tier="300" href="https://tinyurl.com/3nd483es" target="_blank" rel="noopener noreferrer">Support with $300</a>
+        </div>
+
+      </div>
+
+      <p class="note">You'll pick your membership level securely on Buy Me a Coffee. Cancel anytime — no strings attached.</p>
     </div>
 
     <div class="cta">
